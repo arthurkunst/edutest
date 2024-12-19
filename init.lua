@@ -3253,12 +3253,18 @@ local initialize_forms = function(
                 fields,
                 form
             )
-                local name = player:get_player_name(
-                )
-                minetest.close_formspec(
-                    name,
-                    "highlight"
-                )
+                local name = player:get_player_name()
+
+                minetest.close_formspec(name, "highlight")
+
+                -- Reset form handlers to main menu so that highlight form isnt stuck
+                set_current_form_handlers(player, main_menu_form)
+
+                player_context_form[name]["highlight"] = nil
+                player_context_form[name]["inventory"] = nil
+
+                set_inventory_page(player, default_inventory_page)
+
                 return true
             end
         )
@@ -6671,10 +6677,20 @@ local on_player_receive_fields = function(
         contexts
     ) do
         if fields.quit then
-            set_current_inventory_form(
-                player,
-                form
-            )
+            if context == "highlight" then
+                -- Reset form handlers to main menu so that highlight form isnt stuck
+                set_current_form_handlers(player, main_menu_form)
+
+                player_context_form[name]["highlight"] = nil
+                player_context_form[name]["inventory"] = nil
+
+                set_inventory_page(player, default_inventory_page)
+            else
+                set_current_inventory_form(
+                    player,
+                    form
+                )
+            end
             return true
         else
             if not form.remembered_fields[
