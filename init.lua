@@ -6301,233 +6301,243 @@ local initialize_forms = function(
     if nil ~= minetest.chatcommands[
         "area_pos"
     ] then
-        main_menu_form:add_button(
-            main_layout,
-            main_menu_form:new_field(
-            ),
-            S(
-                "Area protection"
-            ),
-            function(
-                player,
-                formname,
-                fields,
-                form,
-                field
-            )
-                local subform = form.resources[
-                    field
-                ].form
-                set_current_inventory_form(
-                    player,
-                    subform
-                )
+        main_menu_form:add_button(main_layout, main_menu_form:new_field(), S("Area protection"),
+            function(player, formname, fields, form, field)
+                local subform = form.resources[field].form
+                set_current_inventory_form(player, subform)
                 return true
             end,
-            function(
-            )
-                local form = new_sub_form(
-                    "EDUtest > " .. S(
-                        "Area protection"
-                    ),
-                    7,
-                    8
-                )
-                form:add_button(
-                    static_layout(
-                        "0,2"
-                    ),
-                    form:new_field(
-                    ),
-                    S(
-                        "Set corner 1"
-                    ),
-                    function(
-                        player,
-                        formname,
-                        fields
-                    )
-                        local name = player:get_player_name(
-                        )
-                        if nil ~= minetest.chatcommands[
-                            "highlight_pos1"
-                        ] then
-                            edutest.apply_chatcommand(
-                                name,
-                                "highlight_pos1",
-                                ""
-                            )
+            function()
+                local form = new_sub_form("EDUtest > " .. S("Area protection"), 7, 8)
+
+                form:add_button(static_layout("0,2"), form:new_field(), S("Set corner 1"),
+                    function(player, formname, fields)
+                        local name = player:get_player_name()
+                        if nil ~= minetest.chatcommands["highlight_pos1"] then
+                            edutest.apply_chatcommand(name, "highlight_pos1", "")
                         else
-                            edutest.apply_chatcommand(
-                                name,
-                                "area_pos",
-                                "set1"
-                            )
-                            minetest.chat_send_player(
-                                name,
-                                S(
-                                    "Punch a block to set the corner of the area"
-                                )
-                            )
+                            edutest.apply_chatcommand(name, "area_pos", "set1")
+                            minetest.chat_send_player(name, S("Punch a block to set the corner of the area"))
                         end
                         return true
                     end
                 )
-                form:add_button(
-                    static_layout(
-                        "0,3"
-                    ),
-                    form:new_field(
-                    ),
-                    S(
-                        "Set corner 2"
-                    ),
-                    function(
-                        player,
-                        formname,
-                        fields
-                    )
-                        local name = player:get_player_name(
-                        )
-                        if nil ~= minetest.chatcommands[
-                            "highlight_pos2"
-                        ] then
-                            edutest.apply_chatcommand(
-                                name,
-                                "highlight_pos2",
-                                ""
-                            )
+                form:add_button(static_layout("0,3"), form:new_field(), S("Set corner 2"),
+                    function(player, formname, fields)
+                        local name = player:get_player_name()
+                        if nil ~= minetest.chatcommands["highlight_pos2"] then
+                            edutest.apply_chatcommand(name, "highlight_pos2", "")
                         else
-                            edutest.apply_chatcommand(
-                                name,
-                                "area_pos",
-                                "set2"
-                            )
-                            minetest.chat_send_player(
-                                name,
-                                S(
-                                    "Punch a block to set the corner of the area"
-                                )
-                            )
+                            edutest.apply_chatcommand(name, "area_pos", "set2")
+                            minetest.chat_send_player(name, S("Punch a block to set the corner of the area"))
                         end
                         return true
                     end
                 )
-                local owner = form:new_field(
-                )
-                form:add_input(
-                    static_layout(
-                        "0.2,4.2"
-                    ),
-                    basic_student_dropdown_with_groups(
-                        owner
-                    ),
-                    {
-                        owner
-                    }
-                )
-                local area_name = form:new_field(
-                )
-                form:add_input(
-                    static_layout(
-                        "0.5,6"
-                    ),
-                    text_field(
-                        area_name,
-                        6,
-                        1,
-                        S(
-                            "Name for new area"
-                        )
-                    ),
-                    {
-                        area_name
-                    }
-                )
-                form:add_button(
-                    static_layout(
-                        "0,7"
-                    ),
-                    form:new_field(
-                    ),
-                    S(
-                        "Assign area"
-                    ),
-                    function(
-                        player,
-                        formname,
-                        fields
-                    )
-                        local name = player:get_player_name(
-                        )
-                        if false == check_field(
-                            name,
-                            formname,
-                            fields,
-                            owner
-                        ) then
+                local owner = form:new_field()
+                form:add_input(static_layout("0.2,4.2"), basic_student_dropdown_with_groups(owner), {owner})
+
+                local area_name = form:new_field()
+                form:add_input(static_layout("0.5,6"), text_field(area_name, 6, 1, S("Name for new area")), {area_name})
+
+                form:add_button(static_layout("0,7"), form:new_field(), S("Assign area"),
+                    function(player, formname, fields)
+                        local name = player:get_player_name()
+                        if false == check_field(name, formname, fields, owner) then
                             return false
                         end
-                        if choose_student_entry == fields[
-                            owner
-                        ] then
+                        if choose_student_entry == fields[owner] then
                             return false
                         end
-                        if "" == fields[
-                            area_name
-                        ] then
-                            minetest.chat_send_player(
-                                name,
-                                "EDUtest: " .. S(
-                                    "Please enter a name for the area"
-                                )
-                            )
+                        if "" == fields[area_name] then
+                            minetest.chat_send_player(name, "EDUtest: " .. S("Please enter a name for the area"))
                             return false
                         end
-                        if group_prefix == string.sub(
-                            fields[
-                                owner
-                            ],
-                            1,
-                            string.len(
-                                group_prefix
-                            )
-                        ) then
-                            local group_name = string.sub(
-                                fields[
-                                    owner
-                                ],
-                                string.len(
-                                    group_prefix
-                                ) + 1
-                            )
-                            edutest.apply_chatcommand(
-                                name,
-                                "highlight_set_owner_group",
-                                group_name .. " " .. fields[
-                                    area_name
-                                ]
-                            )
+                        if group_prefix == string.sub(fields[owner], 1, string.len(group_prefix)) then
+                            local group_name = string.sub(fields[owner], string.len(group_prefix) + 1)
+                            edutest.apply_chatcommand(name, "highlight_set_owner_group", group_name .. " " .. fields[area_name])
                             return true
                         end
-                        edutest.apply_chatcommand(
-                            name,
-                            "highlight_areas",
-                            "set_owner " .. fields[
-                                owner
-                            ] .. " " .. fields[
-                                area_name
-                            ]
-                        )
+                        edutest.apply_chatcommand(name, "highlight_areas", "set_owner " .. fields[owner] .. " " .. fields[area_name])
                         return true
                     end
                 )
-                return {
-                    form = form
-                }
+                return {form = form}
             end
         )
     end
+    main_menu_form:add_button(main_layout, main_menu_form:new_field(), S("Areas"),
+        function(player, formname, fields, form, field)
+            local subform = form.resources[field].form
+            set_current_inventory_form(player, subform)
+            return true
+        end,
+        function()
+            local form = new_sub_form("EDUtest > " .. S("Areas"), 7, 4)
+
+            local function show_player_areas_ui(player_name)
+                if not areas or not areas.areas then
+                    minetest.chat_send_player(player_name, S("Areas mod not available"))
+                    return
+                end
+                local entries = {}
+                for id, area in pairs(areas.areas) do
+                    if area.owner == player_name then
+                        local aname = area.name or ""
+                        local p1, p2 = area.pos1 or {x=0,y=0,z=0}, area.pos2 or {x=0,y=0,z=0}
+                        local coords = string.format("(%d,%d,%d)-(%d,%d,%d)", p1.x,p1.y,p1.z,p2.x,p2.y,p2.z)
+                        table.insert(entries, {id = id, label = tostring(id) .. ": " .. aname .. " " .. coords, open = area.open})
+                    end
+                end
+                if #entries == 0 then
+                    minetest.chat_send_player(player_name, S("You have no areas")) -- maybe guide to create one?
+                    return
+                end
+
+                local labels = {}
+                for i, e in ipairs(entries) do
+                    table.insert(labels, minetest.formspec_escape(e.label))
+                end
+                local labels_str = table.concat(labels, ",")
+
+                local fs = "formspec_version[4]size[10,3]label[0.3,0.3;" .. minetest.formspec_escape(S("Your areas:")) .. "]"
+                fs = fs .. "dropdown[0.3,0.7;9.4,0.8;edutest_areas_dropdown;" .. labels_str .. ";1]"
+                fs = fs .. "button[0.3,1.6;2.2,0.8;edutest_area_action_open;" .. minetest.formspec_escape(S("Open/Close")) .. "]"
+                fs = fs .. "button[2.7,1.6;2.2,0.8;edutest_area_action_remove;" .. minetest.formspec_escape(S("Delete")) .. "]"
+                fs = fs .. "button[5.1,1.6;2.2,0.8;edutest_area_action_change;" .. minetest.formspec_escape(S("Change Owner")) .. "]"
+                fs = fs .. "button_exit[7.5,1.6;2.2,0.8;close;" .. minetest.formspec_escape(S("Close")) .. "]"
+                minetest.show_formspec(player_name, "edutest:areas_list:" .. player_name, fs)
+            end
+
+            if not edutest._areas_formspec_handler_registered then
+                minetest.register_on_player_receive_fields(function(player, formname, fields)
+                    if not formname:match("^edutest:areas_list:") and not formname:match("^edutest:areas_change_owner:") then
+                        return
+                    end
+                    local player_name = player:get_player_name()
+
+                    local index = nil
+
+                    if fields.edutest_area_action_open then
+                        if fields.edutest_areas_dropdown then
+                            index = tonumber(fields.edutest_areas_dropdown:match("^(%d+)"))
+                        end
+                        if not index then
+                            minetest.chat_send_player(player_name, S("Please select an area first"))
+                            return true
+                        end
+                        edutest.apply_chatcommand(player_name, "area_open", index)
+                        if show_player_areas_ui then show_player_areas_ui(player_name) end
+                        return true
+                    end
+
+                    if fields.edutest_area_action_remove then
+                        if fields.edutest_areas_dropdown then
+                            index = tonumber(fields.edutest_areas_dropdown:match("^(%d+)"))
+                        end
+                        if not index then
+                            minetest.chat_send_player(player_name, S("Please select an area first"))
+                            return true
+                        end
+                        edutest.apply_chatcommand(player_name, "remove_area", index)
+                        if show_player_areas_ui then show_player_areas_ui(player_name) end
+                        return true
+                    end
+
+                    if fields.edutest_area_action_change then
+                        if fields.edutest_areas_dropdown then
+                            index = tonumber(fields.edutest_areas_dropdown:match("^(%d+)"))
+                        end
+                        if not index then
+                            minetest.chat_send_player(player_name, S("Please select an area first"))
+                            return true
+                        end
+                        minetest.show_formspec(player_name, "edutest:areas_change_owner:" .. index,
+                            "formspec_version[4]size[6,3]label[0.1,0.2;" .. minetest.formspec_escape(S("Enter the playername of the new owner:")) .. "]" ..
+                            "field[0.5,0.6;5,1;new_owner;;]button[0.5,1.8;2,0.8;submit_change;" .. minetest.formspec_escape(S("Change")) .. "]button_exit[3.5,1.8;2,0.8;cancel;" .. minetest.formspec_escape(S("Cancel")) .. "]")
+                        return true
+                    end
+
+                    if fields.submit_change and fields.new_owner then
+                        if fields.edutest_areas_dropdown then
+                            index = tonumber(fields.edutest_areas_dropdown:match("^(%d+)"))
+                        end
+                        local area_id = formname:match("edutest:areas_change_owner:(%d+)")
+                        if area_id and fields.new_owner ~= "" then
+                            edutest.apply_chatcommand(player_name, "change_owner", area_id .. " " .. fields.new_owner)
+                            if show_player_areas_ui then show_player_areas_ui(player_name) end
+                            return true
+                        end
+                    end
+                end)
+                edutest._areas_formspec_handler_registered = true
+            end
+
+            form:add_button(static_layout("0,2"), form:new_field(), S("Manage your areas"), -- list areas owned by player, with options to remove, change owner, open/close
+                function(player, formname, fields)
+                    local name = player:get_player_name()
+                    show_player_areas_ui(name)
+                end
+            )
+
+            local function show_player_create_areas_ui(player)
+                
+                local pos1 = areas.pos1[player:get_player_name()] or {x=0,y=0,z=0}
+                local pos2 = areas.pos2[player:get_player_name()] or {x=0,y=0,z=0}
+
+                local fs = "formspec_version[4]size[10,4]label[0.3,0.3;" .. minetest.formspec_escape(S("Create a new area by setting two corners:")) .. "]"
+                fs = fs .. "field[0.5,1;4,1;edutest_area_name;" .. minetest.formspec_escape(S("Name for new area")) .. ";]"
+                fs = fs .. "field[5,1;2,1;edutest_set_pos1;" .. minetest.formspec_escape(S("Position 1")) .. ";" .. minetest.pos_to_string(pos1) .. "]"
+                fs = fs .. "field[7.5,1;2,1;edutest_set_pos2;" .. minetest.formspec_escape(S("Position 2")) .. ";" .. minetest.pos_to_string(pos2) .. "]"
+                fs = fs .. "button[0.5,2.5;2.5,1;edutest_create_area;" .. minetest.formspec_escape(S("Create Area")) .. "]"
+                fs = fs .. "button[3.5,2.5;2.5,1;edutest_set_area_pos;" .. minetest.formspec_escape(S("Set Positions (Punch)")) .. "]"
+                fs = fs .. "button_exit[6.5,2.5;2.5,1;close;" .. minetest.formspec_escape(S("Close")) .. "]"
+                minetest.show_formspec(player:get_player_name(), "edutest:create_area:" .. player:get_player_name(), fs)
+            end
+
+            minetest.register_on_player_receive_fields(function(player, formname, fields)
+                if not formname:match("^edutest:create_area:") then
+                    return
+                end
+                local player_name = player:get_player_name()
+                if fields.edutest_create_area then
+                    if not fields.edutest_area_name or fields.edutest_area_name == "" then
+                        minetest.chat_send_player(player_name, "EDUtest: " .. S("Please enter a name for the area"))
+                        return true
+                    end
+                    if not fields.edutest_set_pos1 or fields.edutest_set_pos1 == "" or
+                       not fields.edutest_set_pos2 or fields.edutest_set_pos2 == "" then
+                        if not areas.players[name] then
+                            minetest.chat_send_player(player_name, "EDUtest: " .. S("Please set both positions for the area"))
+                        end
+                        return true
+                    end
+                    if fields.edutest_set_pos1:match("^%(%-?%d+,%-?%d+,%-?%d+%)$")
+                        and fields.edutest_set_pos2:match("^%(%-?%d+,%-?%d+,%-?%d+%)$") then
+                        edutest.apply_chatcommand(player_name, "area_pos1", string.sub(fields.edutest_set_pos1, 2, -2))
+                        edutest.apply_chatcommand(player_name, "area_pos2", string.sub(fields.edutest_set_pos2, 2, -2))
+                        edutest.apply_chatcommand(player_name, "protect", fields.edutest_area_name)
+                        return true
+                    else
+                        minetest.chat_send_player(player_name, "EDUtest: " .. S("Invalid position format"))
+                        return true
+                    end
+                end
+                if fields.edutest_set_area_pos then
+                    edutest.apply_chatcommand(player_name, "area_pos", "set")
+                    return true
+                end
+            end)
+
+            form:add_button(static_layout("0,3"), form:new_field(), S("Create new Area"),
+                function(player, formname, fields)
+                    local name = player:get_player_name()
+                    show_player_create_areas_ui(player)
+                end
+            )
+            return {form = form}
+        end
+    )
     if nil ~= minetest.registered_privileges[
         "invincible"
     ] then
