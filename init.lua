@@ -6377,7 +6377,7 @@ local initialize_forms = function(
 
             local function show_player_areas_ui(player_name)
                 if not areas or not areas.areas then
-                    minetest.chat_send_player(player_name, S("Areas mod is not available."))
+                    minetest.chat_send_player(player_name, "EDUtest: " .. S("Areas mod is not available."))
                     return
                 end
                 local entries = {}
@@ -6390,7 +6390,7 @@ local initialize_forms = function(
                     end
                 end
                 if #entries == 0 then
-                    minetest.chat_send_player(player_name, S("You have no areas")) -- maybe guide to create one?
+                    minetest.chat_send_player(player_name, "EDUtest: " .. S("You have no areas")) -- maybe guide to create one?
                     return
                 end
 
@@ -6423,7 +6423,7 @@ local initialize_forms = function(
                             index = tonumber(fields.edutest_areas_dropdown:match("^(%d+)"))
                         end
                         if not index then
-                            minetest.chat_send_player(player_name, S("Please select an area first"))
+                            minetest.chat_send_player(player_name, "EDUtest: " .. S("Please select an area first"))
                             return true
                         end
                         edutest.apply_chatcommand(player_name, "area_open", index)
@@ -6436,7 +6436,7 @@ local initialize_forms = function(
                             index = tonumber(fields.edutest_areas_dropdown:match("^(%d+)"))
                         end
                         if not index then
-                            minetest.chat_send_player(player_name, S("Please select an area first"))
+                            minetest.chat_send_player(player_name, "EDUtest: " .. S("Please select an area first"))
                             return true
                         end
                         edutest.apply_chatcommand(player_name, "remove_area", index)
@@ -6449,7 +6449,7 @@ local initialize_forms = function(
                             index = tonumber(fields.edutest_areas_dropdown:match("^(%d+)"))
                         end
                         if not index then
-                            minetest.chat_send_player(player_name, S("Please select an area first"))
+                            minetest.chat_send_player(player_name, "EDUtest: " .. S("Please select an area first"))
                             return true
                         end
                         minetest.show_formspec(player_name, "edutest:areas_change_owner:" .. index,
@@ -6507,9 +6507,7 @@ local initialize_forms = function(
                     end
                     if not fields.edutest_set_pos1 or fields.edutest_set_pos1 == "" or
                        not fields.edutest_set_pos2 or fields.edutest_set_pos2 == "" then
-                        if not areas.players[name] then
-                            minetest.chat_send_player(player_name, "EDUtest: " .. S("Please set both positions for the area"))
-                        end
+                        minetest.chat_send_player(player_name, "EDUtest: " .. S("Please set both positions for the area"))
                         return true
                     end
                     if fields.edutest_set_pos1:match("^%(%-?%d+,%-?%d+,%-?%d+%)$")
