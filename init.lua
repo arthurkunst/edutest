@@ -6377,7 +6377,7 @@ local initialize_forms = function(
 
             local function show_player_areas_ui(player_name)
                 if not areas or not areas.areas then
-                    minetest.chat_send_player(player_name, S("Areas mod not available"))
+                    minetest.chat_send_player(player_name, S("Areas mod is not available."))
                     return
                 end
                 local entries = {}
@@ -6485,7 +6485,7 @@ local initialize_forms = function(
                 local pos1 = areas.pos1[player:get_player_name()] or {x=0,y=0,z=0}
                 local pos2 = areas.pos2[player:get_player_name()] or {x=0,y=0,z=0}
 
-                local fs = "formspec_version[4]size[10,4]label[0.3,0.3;" .. minetest.formspec_escape(S("Create a new area by setting two corners:")) .. "]"
+                local fs = "formspec_version[4]size[10,4]label[0.3,0.3;" .. minetest.formspec_escape(S("Create a new area:")) .. "]"
                 fs = fs .. "field[0.5,1;4,1;edutest_area_name;" .. minetest.formspec_escape(S("Name for new area")) .. ";]"
                 fs = fs .. "field[5,1;2,1;edutest_set_pos1;" .. minetest.formspec_escape(S("Position 1")) .. ";" .. minetest.pos_to_string(pos1) .. "]"
                 fs = fs .. "field[7.5,1;2,1;edutest_set_pos2;" .. minetest.formspec_escape(S("Position 2")) .. ";" .. minetest.pos_to_string(pos2) .. "]"
@@ -6519,7 +6519,7 @@ local initialize_forms = function(
                         edutest.apply_chatcommand(player_name, "protect", fields.edutest_area_name)
                         return true
                     else
-                        minetest.chat_send_player(player_name, "EDUtest: " .. S("Invalid position format"))
+                        minetest.chat_send_player(player_name, "EDUtest: " .. S("Invalid position format. Use (x,y,z) format."))
                         return true
                     end
                 end
